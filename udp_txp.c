@@ -7,7 +7,7 @@ int udp_txp_client(uint32_t dst, uint16_t dport, uint16_t sport, uint16_t uport)
 int udp_txp_server(uint16_t dport, uint16_t uport);
 
 struct optdesc{
-    struct option opt;
+    const struct option opt;
     char *desc;
 };
 
@@ -22,15 +22,6 @@ static const struct optdesc options[] = {
     {{0,        0,                 0,  0   }, 0}
 };
 
-static struct option long_options[] = {
-    options[0].opt,
-    options[1].opt,
-    options[2].opt,
-    options[3].opt,
-    options[4].opt,
-    options[5].opt,
-    options[6].opt,
-};
 
 void usage(char *exec_name){
     fprintf(stderr, "Usage: %s -{a | b}  -d [DST] -e [PORT] -s [PORT] -u [PORT]\n", exec_name);
@@ -46,6 +37,13 @@ int main(int argc, char **argv) {
     uint8_t server = 0;
     uint16_t D_PORT=0, S_PORT=0, U_PORT=0;
     uint32_t dst=0;
+
+    static struct option long_options[sizeof(options)/sizeof(options[0])];
+    for(c=0;c < (int)(sizeof(options)/sizeof(options[0]));c++) {
+        long_options[c]=options[c].opt;
+    }
+
+
     while (1) {
         int option_index = 0;
         c = getopt_long(argc, argv, ":cld:e:s:u:h",
