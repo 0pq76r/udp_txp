@@ -24,7 +24,7 @@ static const struct optdesc options[] = {
 
 
 void usage(char *exec_name){
-    fprintf(stderr, "Usage: %s -{a | b}  -d [DST] -e [PORT] -s [PORT] -u [PORT]\n", exec_name);
+    fprintf(stderr, "Usage: %s -{c | l}  -d [DST] -e [PORT] -s [PORT] -u [PORT]\n", exec_name);
     for(int i=0; options[i].desc;i++){
         fprintf(stderr, "\t--%s or -%c\t%s\n",
                 options[i].opt.name, options[i].opt.val, options[i].desc);
