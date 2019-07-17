@@ -23,7 +23,8 @@ ip netns exec blue ip addr add 10.0.0.2/24 dev tapB
 ip netns exec red ip link set dev tapR up
 ip netns exec blue ip link set dev tapB up
 
-xterm -e "echo NC SERVER; ip netns exec red nc -lu 20203; echo EXIT $?; read -n 1" &
+
+xterm -e "echo NC SERVER; ip netns exec red nc -lup 20203; echo EXIT $?; read -n 1" &
 xterm -e "echo SERVER; ip netns exec red ./udp_txp -l -e 443 -u 20203; echo EXIT $?; read -n 1" &
 xterm -e "echo CLIENT; ip netns exec blue ./udp_txp -c -d 10.0.0.1 -e 443 -s 9090 -u 1234; echo EXIT $?; read -n 1" &
 xterm -e "sleep .5; echo NC CLIENT; ip netns exec blue nc -u 127.0.0.1 1234; echo EXIT $?; read -n 1" &
